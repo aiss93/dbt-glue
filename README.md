@@ -544,12 +544,13 @@ group by 1
     - For Athena version 2: The adapter is compatible with the Iceberg Connector from AWS Marketplace with Glue 3.0 as Fulfillment option and 0.12.0-2 (Feb 14, 2022) as Software version)
 - For Glue 4.0, to add the following configurations in dbt-profile:  
 ```
-    --conf spark.sql.catalog.glue_catalog=org.apache.iceberg.spark.SparkCatalog
-    --conf spark.sql.catalog.glue_catalog.warehouse=s3://<PATH_TO_YOUR_WAREHOUSE>
-    --conf spark.sql.catalog.glue_catalog.catalog-impl=org.apache.iceberg.aws.glue.GlueCatalog 
-    --conf spark.sql.catalog.glue_catalog.io-impl=org.apache.iceberg.aws.s3.S3FileIO 
-    --conf spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions  
+    --conf spark.sql.catalog.spark_catalog=org.apache.iceberg.spark.SparkSessionCatalog
+    --conf spark.sql.catalog.spark_catalog.warehouse=s3://al-gdo-dev-ww-dl-0139-transfo/data
+    --conf spark.sql.catalog.spark_catalog.catalog-impl=org.apache.iceberg.aws.glue.GlueCatalog
+    --conf spark.sql.catalog.spark_catalog.io-impl=org.apache.iceberg.aws.s3.S3FileIO
+    --conf spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions 
 ```
+SparkSessionCatalog adds support for Iceberg tables to Spark's built-in catalog, and delegates to the built-in catalog for non-Iceberg tables.
 - For Glue 3.0, you need to set up more configurations : 
 ```
     --conf spark.serializer=org.apache.spark.serializer.KryoSerializer
